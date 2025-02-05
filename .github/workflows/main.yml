@@ -1,0 +1,29 @@
+name: Java CI
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      - name: Build with Maven
+        run: |
+          cd ${{ github.workspace }}  # Ensure it's in the correct directory
+          ls -la  # List files to verify pom.xml exists
+          mvn clean package
+
+      - name: Verify JAR
+        run: ls -la target
